@@ -57,7 +57,7 @@
     <Compile Include="BigRedButtonMessage.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="DreamCheekyBigRedBTN.cs" />
+    <Compile Include="BigRedButton.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="1347052316_system-red.ico" />
