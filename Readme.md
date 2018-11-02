@@ -1,6 +1,6 @@
 **Project Description**
 
-This is just a fork of the original DreakCheeky library for controlling the big red button.  I have made the following changes:
+This is just a fork of the original DreamCheeky library for controlling the big red button.  I have made the following changes:
 
 
 1.  I got rid of all the stuff I don't care about such as the LED and some other Iron Man button references.
