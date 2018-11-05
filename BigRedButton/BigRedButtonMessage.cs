@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace DreamCheekyUSB
+namespace BRB
 {
     public class BigRedButtonMessage
     {

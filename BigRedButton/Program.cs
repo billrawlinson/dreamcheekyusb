@@ -5,7 +5,7 @@ using System.Diagnostics;
 using System.Windows.Forms;
 using System.Runtime.InteropServices;
 
-namespace DreamCheekyUSB {
+namespace BRB {
 	class Program {
 		static string strCMD = "";
 		static string strCMDARGs = "";

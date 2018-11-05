@@ -8,8 +8,8 @@
     <ProjectGuid>{3AC3E8E6-F4BE-4EC9-BBC3-3C1BFD8D213E}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>DreamCheekyUSB</RootNamespace>
-    <AssemblyName>DreamCheekyBTN</AssemblyName>
+    <RootNamespace>BRB</RootNamespace>
+    <AssemblyName>BigRedButton</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
@@ -67,9 +67,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
-    <None Include="AutoHotkey.ahk">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
     <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

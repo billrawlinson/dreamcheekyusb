@@ -6,11 +6,10 @@ using System.Threading;
 
 
 
-namespace DreamCheekyUSB {
-	public class BigRedButton  {
+namespace BRB {
+	public class BigRedButton : IDisposable  {
         #region Constant and readonly values
         public HidDevice _device;
-        private bool _attached;
 
         new public const int DEFAULT_VENDOR_ID = 0x1D34;
 		new public const int DEFAULT_PRODUCT_ID = 0x000D;
@@ -27,23 +26,13 @@ namespace DreamCheekyUSB {
 
         #endregion
 
-        private AutoResetEvent WriteEvent = new AutoResetEvent(false);
-        private System.Timers.Timer t = new System.Timers.Timer(5);
-        //Timer for checking USB status every 100ms
         private Action Button_Callback;
-        private bool LidOpen;
-        protected byte ActivatedMessage;
-
-
-
 
         public BigRedButton() : this(0)
         {
-			ActivatedMessage = Messages.BUTTON_PRESSED;
 		}
 
 		public BigRedButton(int deviceIndex = 0) : this(DEFAULT_VENDOR_ID, DEFAULT_PRODUCT_ID, deviceIndex) {
-			ActivatedMessage = Messages.BUTTON_PRESSED;
 		}
 
 		public BigRedButton(int vendorID, int productID, int deviceIndex = 0){
@@ -57,7 +46,6 @@ namespace DreamCheekyUSB {
             {
             }
 
-            ActivatedMessage = Messages.BUTTON_PRESSED;
 		}
 
 		public BigRedButton(string devicePath) {
@@ -66,8 +54,6 @@ namespace DreamCheekyUSB {
             {
                 throw new Exception(String.Format("Cannot find USB HID Device with path={0}", devicePath));
             }
-            ActivatedMessage = Messages.BUTTON_PRESSED;
-            ActivatedMessage = Messages.BUTTON_PRESSED;
 		}
 
         /// <summary>
@@ -97,19 +83,17 @@ namespace DreamCheekyUSB {
 
         private void DeviceAttachedHandler()
         {
-            _attached = true;
             Console.WriteLine("Big Red Button attached.");
         }
 
         private void DeviceRemovedHandler()
         {
-            _attached = false;
             Console.WriteLine("Big Red Button removed.");
         }
 
         private void OnReport(HidReport report)
         {
-            if (_attached == false) { return; }
+            if (!_device.IsConnected) { return; }
 
 
             if (report.Data.Length >= 4)
@@ -133,10 +117,15 @@ namespace DreamCheekyUSB {
         public void RegisterCallback(Action callback)
         {
             Button_Callback = callback;
-            //t.Enabled = true;
-            //t.Start();
         }
 
-
-	}
+        public void Dispose()
+        {
+            if(_device != null && _device.IsOpen)
+            {
+                _device.CloseDevice();
+                _device = null;
+            }
+        }
+    }
 }
