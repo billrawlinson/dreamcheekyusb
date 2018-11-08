@@ -11,7 +11,7 @@ namespace BRB
 		static string strMacro = "";
 		static int count = 0;
 
-		static int Main(string[] args) {
+		static int OldMain(string[] args) {
 			int actions = 0;
 			BigRedButton btn = null;
 			try {
