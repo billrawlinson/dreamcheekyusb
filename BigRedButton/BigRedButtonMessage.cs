@@ -28,8 +28,8 @@ namespace BRB
 
         public bool Depress { get { return (DepressAction == _message); } }
         public bool RedPressed { get { return (PressAction == _message); } }
-        public bool IsOpen { get { return (OpenAction == _message); } }
-        public bool IsClosed { get { return (CloseAction == _message); } }
+        public bool WasOpened { get { return (OpenAction == _message); } }
+        public bool WasClosed { get { return (CloseAction == _message); } }
 
 
         private static byte GetButtonsPressed(BigRedButtonMessage message)

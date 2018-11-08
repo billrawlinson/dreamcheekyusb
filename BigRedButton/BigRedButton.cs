@@ -9,24 +9,19 @@ using System.Threading;
 namespace BRB {
 	public class BigRedButton : IDisposable  {
         #region Constant and readonly values
-        public HidDevice _device;
 
-        new public const int DEFAULT_VENDOR_ID = 0x1D34;
-		new public const int DEFAULT_PRODUCT_ID = 0x000D;
+        private const int DEFAULT_VENDOR_ID = 0x1D34;
+		private const int DEFAULT_PRODUCT_ID = 0x000D;
 
 		//Default for USB Big Red Button
-		new public static class Messages {
-			public const byte LID_CLOSED = 0x15;
-			public const byte BUTTON_PRESSED = 0x16;
-			public const byte LID_OPEN = 0x17;
-		}
-
 		public const string PID = "000d";
         public static readonly byte[] CmdStatus = { 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02 };
 
         #endregion
 
+        private HidDevice _device;
         private Action Button_Callback;
+        private bool _attached;
 
         public BigRedButton() : this(0)
         {
@@ -56,44 +51,37 @@ namespace BRB {
             }
 		}
 
-        /// <summary>
-        /// Private init function for constructors.
-        /// </summary>
-        /// <returns>True if success, false otherwise.</returns>
-        public bool Run()
+        public void Run()
         {
             ButtonState = false;
             _device.OpenDevice();
+
             _device.Inserted += DeviceAttachedHandler;
             _device.Removed += DeviceRemovedHandler;
-
-
             _device.MonitorDeviceEvents = true;
-            
+
             _device.ReadReport(OnReport);
+
             //Device is valid
             Trace.WriteLine("Init HID device: " + _device.Description + "\r\n");
-            return true;
         }
-
-        public void Stop()
-        {
-            _device.CloseDevice();
-        }
-
+        
         private void DeviceAttachedHandler()
         {
+            _attached = true;
             Console.WriteLine("Big Red Button attached.");
+            _device.ReadReport(OnReport);
         }
 
         private void DeviceRemovedHandler()
         {
+            _attached = false;
             Console.WriteLine("Big Red Button removed.");
         }
 
         private void OnReport(HidReport report)
         {
-            if (!_device.IsConnected) { return; }
+            if (_attached == false) { return; }
 
 
             if (report.Data.Length >= 4)
